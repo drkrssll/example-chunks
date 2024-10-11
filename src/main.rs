@@ -1,15 +1,16 @@
-use std::process::Command;
+use std::{error::Error, process::Command};
 
 use chunks_rs::{
     load_css, tag, Application, Chunk, Edge, EdgeConfig, Factory, Internal, Layer, Local, Slab,
 };
+use regex::Regex;
 
 const STYLE: &str = "
 window {
     background-color: transparent;
 }
 
-#clock, #storage, #volume {
+#clock, #storage, #volume, #weather {
     font-size: 34px;
     font-family: feather;
     font-family: Iosevka;
@@ -20,25 +21,73 @@ window {
     border-radius: 20px;
 }
 
-#storage, #volume {
+#storage, #volume, #weather{
     font-size: 24px;
 }
 ";
 
-fn main() {
+// for async functions like get_weather to work, you have to apply tokio::main
+// and set main to be async as well
+//
+// #[tokio::main]
+// async fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<(), Box<dyn Error>> {
     let factory = Factory::new("chunk.factory");
 
-    let chunks = |factory: Application| {
+    // let weather_data = get_weather("Buena Vista GA").await?;
+
+    let chunks = move |factory: Application| {
         storage(&factory);
         clock(&factory);
-        volume(&factory);
+
+        // weather(&factory, weather_data.clone());
 
         load_css(STYLE);
     };
 
     factory.pollute(chunks);
+
+    Ok(())
 }
 
+async fn get_weather(location: &str) -> Result<String, Box<dyn Error>> {
+    let url = format!("https://wttr.in/{}?format=3", location);
+    let response = reqwest::get(&url).await?.text().await?;
+
+    let re = Regex::new(r"\s*([\d]+°F)")?;
+
+    if let Some(caps) = re.captures(&response) {
+        let emoji = caps.get(1).map_or("", |m| m.as_str());
+        let temperature = caps.get(2).map_or("", |m| m.as_str());
+
+        Ok(format!("{} {}", emoji, temperature).trim().to_string())
+    } else {
+        Ok("Weather data not available".to_string())
+    }
+}
+
+fn weather(factory: &Application, weather_data: String) {
+    let tag = tag("weather");
+    let margins = vec![(Edge::Top, 90), (Edge::Right, 160)];
+    let anchors = EdgeConfig::TOP_RIGHT.to_vec();
+
+    let text = format!(
+        "<span foreground='#FFFFFF' size='large'>{}</span>",
+        weather_data
+    );
+
+    Internal::update_storage(&tag, text);
+
+    Chunk::new(
+        factory.clone(),
+        "Storage".to_string(),
+        tag,
+        anchors,
+        margins,
+        Layer::Bottom,
+    )
+    .build();
+}
 fn storage(factory: &Application) {
     let tag = tag("storage");
     let margins = vec![(Edge::Top, 20), (Edge::Right, 160)];
