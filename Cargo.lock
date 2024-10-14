@@ -117,9 +117,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.1.28"
+version = "1.1.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e80e3b6a3ab07840e1cae9b0666a63970dc28e8ed5ffbcdacbfc760c281bfc1"
+checksum = "b16803a61b81d9eabb7eae2588776c4c1e584b738ede45fdbb4c972cec1e9945"
 dependencies = [
  "shlex",
 ]
@@ -156,9 +156,9 @@ dependencies = [
 
 [[package]]
 name = "chunks-rs"
-version = "0.4.0"
+version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9606dedd3e58a7fd80cf1536b7e6f4a7a67b48c71b95226ff57a0f1925128b28"
+checksum = "9c9d43f55d03df6df03cd735ea29654c300fc5ec80887a73100d858c4b5e8a7d"
 dependencies = [
  "chrono",
  "gdk4-x11",
