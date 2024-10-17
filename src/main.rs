@@ -39,6 +39,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let chunks = move |factory: Application| {
         storage(&factory);
         clock(&factory);
+        volume(&factory);
 
         // weather(&factory, weather_data.clone());
 
@@ -120,24 +121,9 @@ fn volume(factory: &Application) {
     let margins = vec![(Edge::Top, 20), (Edge::Left, 20)];
     let anchors = EdgeConfig::TOP_LEFT.to_vec();
 
-    let volume = || {
-        let output = Command::new("pactl")
-            .args(&["get-sink-volume", "@DEFAULT_SINK@"])
-            .output()
-            .expect("Failed to execute pactl command");
-
-        let output_str = String::from_utf8_lossy(&output.stdout);
-
-        if let Some(volume) = output_str.split_whitespace().find(|&s| s.ends_with('%')) {
-            volume.to_string()
-        } else {
-            "Unknown".to_string()
-        }
-    };
-
     let text = format!(
         "<span foreground='#FFFFFF' size='large'>📢 {}</span>",
-        volume()
+        Internal::get_pactl_vol()
     );
 
     Internal::static_widget(&tag, text);

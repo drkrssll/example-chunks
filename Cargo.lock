@@ -156,9 +156,9 @@ dependencies = [
 
 [[package]]
 name = "chunks-rs"
-version = "0.4.3"
+version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c9d43f55d03df6df03cd735ea29654c300fc5ec80887a73100d858c4b5e8a7d"
+checksum = "ab5a3d83a4f14f3c35c28d1cf1e44a00e7d12d203ca21c7dd677643e9e4e175b"
 dependencies = [
  "chrono",
  "gdk4-x11",
