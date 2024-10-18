@@ -32,7 +32,7 @@ window {
 async fn main() -> Result<(), Box<dyn Error>> {
     let factory = Factory::new("chunk.factory");
 
-    let weather_data = Internal::get_weather("Buena Vista GA").await?;
+    let weather_data = Internal::get_weather("London").await?;
 
     let chunks = move |factory: Application| {
         storage(&factory);
