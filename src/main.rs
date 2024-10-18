@@ -29,19 +29,20 @@ window {
 // for async functions like get_weather to work, you have to apply tokio::main
 // and set main to be async as well
 //
-// #[tokio::main]
-// async fn main() -> Result<(), Box<dyn Error>> {
-fn main() -> Result<(), Box<dyn Error>> {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+    //fn main() {
     let factory = Factory::new("chunk.factory");
 
-    // let weather_data = get_weather("Buena Vista GA").await?;
+    let weather_data = Internal::get_weather("Buena Vista GA").await?;
 
     let chunks = move |factory: Application| {
         storage(&factory);
         clock(&factory);
         volume(&factory);
+        welcome(&factory);
 
-        // weather(&factory, weather_data.clone());
+        weather(&factory, weather_data.clone());
 
         load_css(STYLE);
     };
@@ -51,32 +52,20 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-/*
-async fn get_weather(location: &str) -> Result<String, Box<dyn Error>> {
-    let url = format!("https://wttr.in/{}?format=3", location);
-    let response = reqwest::get(&url).await?.text().await?;
-
-    let re = Regex::new(r"\s*([\d]+°F)")?;
-
-    if let Some(caps) = re.captures(&response) {
-        let emoji = caps.get(1).map_or("", |m| m.as_str());
-        let temperature = caps.get(2).map_or("", |m| m.as_str());
-
-        Ok(format!("{} {}", emoji, temperature).trim().to_string())
-    } else {
-        Ok("Weather data not available".to_string())
-    }
-}
-
 fn weather(factory: &Application, weather_data: String) {
     let tag = tag("weather");
     let margins = vec![(Edge::Top, 90), (Edge::Right, 160)];
     let anchors = EdgeConfig::TOP_RIGHT.to_vec();
 
-    let text = format!(
-        "<span foreground='#FFFFFF' size='large'>{}</span>",
-        weather_data
-    );
+    let weather_closure = move || {
+        let text = format!(
+            "<span foreground='#FFFFFF' size='large'>{}</span>",
+            weather_data
+        );
+        text
+    };
+
+    Internal::update_widget(&tag, weather_closure, 5);
 
     Chunk::new(
         factory.clone(),
@@ -88,7 +77,7 @@ fn weather(factory: &Application, weather_data: String) {
     )
     .build();
 }
-*/
+
 fn storage(factory: &Application) {
     let tag = tag("storage");
     let margins = vec![(Edge::Top, 20), (Edge::Right, 160)];
@@ -116,10 +105,32 @@ fn storage(factory: &Application) {
     .build();
 }
 
+fn welcome(factory: &Application) {
+    let tag = tag("volume");
+    let margins = vec![(Edge::Bottom, 0), (Edge::Left, 0)];
+    let anchors = EdgeConfig::CENTER.to_vec();
+
+    let text = format!(
+        "<span foreground='#FFFFFF' size='large'>Example</span>\n<span foreground='#FF0000' size='large'>Chunks</span>",
+    );
+
+    Internal::static_widget(&tag, text);
+
+    Slab::new(
+        factory.clone(),
+        "Volume".to_string(),
+        tag,
+        anchors,
+        margins,
+        15,
+    )
+    .build();
+}
+
 fn volume(factory: &Application) {
     let tag = tag("volume");
-    let margins = vec![(Edge::Top, 20), (Edge::Left, 20)];
-    let anchors = EdgeConfig::TOP_LEFT.to_vec();
+    let margins = vec![(Edge::Bottom, 20), (Edge::Left, 20)];
+    let anchors = EdgeConfig::BOTTOM_LEFT.to_vec();
 
     let text = format!(
         "<span foreground='#FFFFFF' size='large'>📢 {}</span>",
@@ -134,7 +145,7 @@ fn volume(factory: &Application) {
         tag,
         anchors,
         margins,
-        2,
+        15,
     )
     .build();
 }
