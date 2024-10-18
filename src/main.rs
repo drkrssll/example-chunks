@@ -28,10 +28,8 @@ window {
 
 // for async functions like get_weather to work, you have to apply tokio::main
 // and set main to be async as well
-//
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    //fn main() {
     let factory = Factory::new("chunk.factory");
 
     let weather_data = Internal::get_weather("Buena Vista GA").await?;
