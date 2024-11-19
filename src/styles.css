@@ -1,0 +1,14 @@
+window {
+	background-color: transparent;
+}
+
+#clock_label {
+	font-size: 34px;
+	font-family: feather;
+	font-family: Iosevka;
+	background-color: #000000;
+	color: #FFFFFF;
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 20px;
+}
