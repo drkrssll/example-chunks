@@ -1,6 +1,6 @@
 use chunks_rs::{
     position::{Edge, EdgeConfig},
-    utils::tag,
+    utils::tag_label,
     widgets::Plate,
     Application, Internal,
 };
@@ -9,7 +9,7 @@ pub struct Plates {}
 
 impl Plates {
     pub fn welcome(factory: &Application) {
-        let tag = tag("welcome");
+        let tag = tag_label("welcome");
         let margins = vec![(Edge::Bottom, 0), (Edge::Left, 0)];
         let anchors = EdgeConfig::CENTER.to_vec();
 

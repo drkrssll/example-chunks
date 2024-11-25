@@ -1,7 +1,7 @@
 use chrono::Local;
 use chunks_rs::{
     position::{Edge, EdgeConfig, Layer},
-    utils::{tag, tag_box},
+    utils::{tag_box, tag_label},
     widgets::Chunk,
     Application, Internal,
 };
@@ -10,7 +10,7 @@ pub struct Chunks {}
 
 impl Chunks {
     pub fn clock(factory: &Application) {
-        let tag = tag("clock");
+        let tag = tag_label("clock");
         let margins = vec![(Edge::Top, 20), (Edge::Right, 20)];
         let anchors = EdgeConfig::TOP_RIGHT.to_vec();
 
@@ -48,13 +48,13 @@ impl Chunks {
             tag,
             margins,
             anchors,
-            Layer::Overlay,
+            Layer::Bottom,
         )
         .build();
     }
 
     pub fn weather(factory: &Application, weather_data: String) {
-        let tag = tag("weather");
+        let tag = tag_label("weather");
         let margins = vec![(Edge::Top, 90), (Edge::Right, 160)];
         let anchors = EdgeConfig::TOP_RIGHT.to_vec();
 
@@ -80,7 +80,7 @@ impl Chunks {
     }
 
     pub fn storage(factory: &Application) {
-        let tag = tag("storage");
+        let tag = tag_label("storage");
         let margins = vec![(Edge::Top, 20), (Edge::Right, 160)];
         let anchors = EdgeConfig::TOP_RIGHT.to_vec();
 

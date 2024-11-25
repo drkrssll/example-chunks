@@ -1,6 +1,6 @@
 use chunks_rs::{
     position::{Edge, EdgeConfig},
-    utils::tag,
+    utils::tag_label,
     widgets::Slab,
     Application, Internal,
 };
@@ -9,7 +9,7 @@ pub struct Slabs {}
 
 impl Slabs {
     pub fn volume(factory: &Application) {
-        let tag = tag("volume");
+        let tag = tag_label("volume");
         let margins = vec![(Edge::Bottom, 20), (Edge::Left, 20)];
         let anchors = EdgeConfig::BOTTOM_LEFT.to_vec();
 

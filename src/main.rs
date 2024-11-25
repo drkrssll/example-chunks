@@ -1,7 +1,9 @@
+mod bar;
 mod chunks;
 mod plates;
 mod slabs;
 
+use bar::Taskbar;
 use chunks::Chunks;
 use chunks_rs::{utils::load_css, Application, Factory};
 use plates::Plates;
@@ -12,10 +14,21 @@ window {
     background-color: transparent;
 }
 
-#clock, #storage, #volume, #weather, #picture, #welcome {
-    font-size: 34px;
+* {
     font-family: feather;
     font-family: Iosevka;
+
+}
+
+#taskbar {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#clock, #storage, #volume, #weather, #picture, #welcome {
+    font-size: 34px;
     background-color: #000000;
     color: #FFFFFF;
     padding: 10px;
@@ -23,8 +36,14 @@ window {
     border-radius: 20px;
 }
 
-#storage, #volume, #weather{
+#volume, #weather, #storage {
     font-size: 24px;
+}
+
+#workspace {
+    font-size: 18px;
+    background-color: red;
+    border-radius: 10px;
 }
 ";
 
@@ -39,12 +58,14 @@ fn main() {
     let chunks = move |factory: Application| {
         // Chunks::weather(&factory, weather_data.clone());
 
+        Taskbar::bar(&factory);
+
         Chunks::storage(&factory);
         Chunks::clock(&factory);
 
         Slabs::volume(&factory);
 
-        Plates::welcome(&factory);
+        // Plates::welcome(&factory);
 
         load_css(STYLE);
     };
