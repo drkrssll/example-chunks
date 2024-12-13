@@ -65,7 +65,7 @@ fn main() {
 
         Slabs::volume(&factory);
 
-        // Plates::welcome(&factory);
+        Plates::welcome(&factory);
 
         load_css(STYLE);
     };

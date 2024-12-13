@@ -3,25 +3,25 @@ use chunks_rs::{
     position::{Edge, EdgeConfig, Layer},
     utils::{tag_box, tag_label},
     widgets::Chunk,
-    Application, Internal,
+    GtkApp, Internal,
 };
 
 pub struct Chunks {}
 
 impl Chunks {
-    pub fn clock(factory: &Application) {
+    pub fn clock(factory: &GtkApp) {
         let tag = tag_label("clock");
         let margins = vec![(Edge::Top, 20), (Edge::Right, 20)];
         let anchors = EdgeConfig::TOP_RIGHT.to_vec();
 
         let date_closure = || {
-            let current_time = Local::now();
+            let current_date = Local::now();
 
             let date = format!(
                 "<span background='#000000' foreground='#FFFFFF' size='large'>{}</span>\n<span foreground='#fabbc2' size='small'>{}  </span><span foreground='#FF0110' weight='bold' size='small'>{}</span>",
-                current_time.format("%a"),
-                current_time.format("%b"),
-                current_time.format("%d"),
+                current_date.format("%a"),
+                current_date.format("%b"),
+                current_date.format("%d"),
             );
 
             date
@@ -42,18 +42,19 @@ impl Chunks {
 
         Internal::static_to_update(&tag, date_closure, 2, time_closure, 1);
 
-        Chunk::new(
+        let chunk = Chunk::new(
             factory.clone(),
-            "Clock".to_string(),
+            "Clock",
             tag,
             margins,
             anchors,
             Layer::Bottom,
-        )
-        .build();
+        );
+
+        chunk.build();
     }
 
-    pub fn weather(factory: &Application, weather_data: String) {
+    pub fn weather(factory: &GtkApp, weather_data: String) {
         let tag = tag_label("weather");
         let margins = vec![(Edge::Top, 90), (Edge::Right, 160)];
         let anchors = EdgeConfig::TOP_RIGHT.to_vec();
@@ -68,18 +69,19 @@ impl Chunks {
 
         Internal::update_widget(&tag, weather_closure, 5);
 
-        Chunk::new(
+        let chunk = Chunk::new(
             factory.clone(),
-            "Storage".to_string(),
+            "Storage",
             tag,
             margins,
             anchors,
             Layer::Bottom,
-        )
-        .build();
+        );
+
+        chunk.build();
     }
 
-    pub fn storage(factory: &Application) {
+    pub fn storage(factory: &GtkApp) {
         let tag = tag_label("storage");
         let margins = vec![(Edge::Top, 20), (Edge::Right, 160)];
         let anchors = EdgeConfig::TOP_RIGHT.to_vec();
@@ -95,18 +97,20 @@ impl Chunks {
 
         Internal::update_storage(&tag, storage_closure);
 
-        Chunk::new(
+        let chunk = Chunk::new(
             factory.clone(),
-            "Storage".to_string(),
+            "Storage",
             tag,
             margins,
             anchors,
             Layer::Bottom,
-        )
-        .build();
+        );
+
+        chunk.build();
     }
 
-    pub fn picture(factory: &Application) {
+    // tag_box should be used for images
+    pub fn picture(factory: &GtkApp) {
         let box_tag = tag_box("picture");
         let margins = vec![(Edge::Top, 20), (Edge::Left, 20)];
         let anchors = EdgeConfig::TOP_LEFT.to_vec();
@@ -115,14 +119,15 @@ impl Chunks {
 
         Internal::static_picture(&box_tag, pathname);
 
-        Chunk::new(
+        let chunk = Chunk::new(
             factory.clone(),
-            "Picture".to_string(),
+            "Picture",
             box_tag,
             margins,
             anchors,
             Layer::Bottom,
-        )
-        .build();
+        );
+
+        chunk.build();
     }
 }

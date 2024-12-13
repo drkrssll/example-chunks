@@ -162,8 +162,9 @@ dependencies = [
 
 [[package]]
 name = "chunks-rs"
-version = "0.6.1"
-source = "git+https://github.com/drkrssll/chunks-rs#0ba76d16fa18955177c6e6d45d4a232db62954de"
+version = "0.6.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "833e66b94d3766e0d9fc5f91b2ec49efeaa7758718baffa2a488d1e4aac3a4b4"
 dependencies = [
  "chrono",
  "gdk-pixbuf",
