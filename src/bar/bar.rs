@@ -1,11 +1,11 @@
 use std::process::Command;
 
-use chunks_rs::{position::Edge, taskbar::Bar, utils::tag_button, Application, Internal, Vertical};
+use chunks_rs::{position::Edge, taskbar::Bar, utils::tag_button, GtkApp, Internal, Vertical};
 
 pub struct Taskbar {}
 
 impl Taskbar {
-    pub fn bar(factory: &Application) {
+    pub fn bar(factory: &GtkApp) {
         let mut workspaces = vec![];
 
         for i in 0..5 {
@@ -16,7 +16,7 @@ impl Taskbar {
                 Self::switch_workspace(num).expect("Failed to switch workspace")
             });
 
-            Internal::static_widget(&workspace, (num).to_string());
+            Internal::static_widget(&workspace, &(num).to_string());
 
             workspaces.push(workspace);
         }
@@ -27,7 +27,7 @@ impl Taskbar {
 
         Bar::new(
             factory.clone(),
-            "Storage".to_string(),
+            "Storage",
             workspaces,
             margins,
             anchors,
