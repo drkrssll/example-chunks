@@ -1,11 +1,21 @@
+#![allow(unused_imports)]
+
 use std::process::Command;
 
-use chunks_rs::{position::Edge, taskbar::Bar, utils::tag_button, GtkApp, Internal, Vertical};
+use chrono::Local;
+use chunks_rs::{
+    position::Edge,
+    taskbar::Bar,
+    utils::{tag_button, tag_label},
+    GtkApp, Internal, Vertical,
+};
 
 pub struct Taskbar {}
 
 impl Taskbar {
     pub fn bar(factory: &GtkApp) {
+        let margins = vec![(Edge::Top, 6), (Edge::Bottom, 6), (Edge::Left, 6)];
+        let anchors = vec![(Edge::Top, true), (Edge::Left, true), (Edge::Bottom, true)];
         let mut workspaces = vec![];
 
         for i in 0..5 {
@@ -21,23 +31,38 @@ impl Taskbar {
             workspaces.push(workspace);
         }
 
-        let margins = vec![(Edge::Top, 6), (Edge::Bottom, 6), (Edge::Left, 6)];
+        let label = tag_label("bar-clock");
 
-        let anchors = vec![(Edge::Top, true), (Edge::Left, true), (Edge::Bottom, true)];
+        let time_closure = || {
+            let current_time = Local::now();
 
-        Bar::new(
+            let time = format!(
+                "<span foreground='#FFFFFF' size='large'>{}</span>\n<span foreground='#FFFFFF' size='large'>{}</span>\n<span foreground='#FF0110' weight='bold' size='large'>{}</span>",
+                current_time.format("%I"),
+                current_time.format("%M"),
+                current_time.format("%p"),
+            );
+
+            time
+        };
+
+        Internal::update_time(&label, time_closure);
+
+        workspaces.push(label);
+
+        let bar = Bar::new(
             factory.clone(),
             "Storage",
             workspaces,
             margins,
             anchors,
             Vertical,
-        )
-        .build();
+        );
+
+        bar.build();
     }
 
     fn switch_workspace(number: i32) -> Result<(), std::io::Error> {
-        // switch hyprland workspace
         Command::new("hyprctl")
             .args(&["dispatch", "workspace", &number.to_string()])
             .output()?;

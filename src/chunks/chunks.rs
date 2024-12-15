@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 use chrono::Local;
 use chunks_rs::{
     position::{Edge, EdgeConfig, Layer},

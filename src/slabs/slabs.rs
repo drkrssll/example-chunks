@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 use chunks_rs::{
     position::{Edge, EdgeConfig},
     utils::tag_label,

@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 use chunks_rs::{
     position::{Edge, EdgeConfig},
     utils::tag_label,
@@ -14,7 +16,7 @@ impl Plates {
         let anchors = EdgeConfig::CENTER.to_vec();
 
         let text = format!(
-            "<span foreground='#FFFFFF' size='large'>Hello</span>\n<span foreground='#FF0000' size='large'>Derek</span>",
+            "<span foreground='#FFFFFF' size='large'>Example</span>\n<span foreground='#FF0000' size='large'>Chunks</span>",
         );
 
         Internal::static_widget(&tag, &text);

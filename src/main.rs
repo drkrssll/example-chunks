@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 mod bar;
 mod chunks;
 mod plates;
@@ -5,7 +7,7 @@ mod slabs;
 
 use bar::Taskbar;
 use chunks::Chunks;
-use chunks_rs::{utils::load_css, Application, Factory};
+use chunks_rs::{utils::load_css, Factory, GtkApp};
 use plates::Plates;
 use slabs::Slabs;
 
@@ -17,7 +19,6 @@ window {
 * {
     font-family: feather;
     font-family: Iosevka;
-
 }
 
 #taskbar {
@@ -25,6 +26,11 @@ window {
     color: #FFFFFF;
     border: 2px solid black;
     border-radius: 10px;
+}
+
+#bar-clock {
+    margin-top: 775px;
+    font-size: 24px;
 }
 
 #clock, #storage, #volume, #weather, #picture, #welcome {
@@ -55,7 +61,7 @@ fn main() {
 
     // let weather_data = Internal::get_weather("London").await?;
 
-    let chunks = move |factory: Application| {
+    let chunks = move |factory: GtkApp| {
         // Chunks::weather(&factory, weather_data.clone());
 
         Taskbar::bar(&factory);
