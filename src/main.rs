@@ -7,7 +7,7 @@ mod slabs;
 
 use bar::Taskbar;
 use chunks::Chunks;
-use chunks_rs::{utils::load_css, Factory, GtkApp};
+use chunks_rs::{utils::load_css, widgets::Chunk, Factory, GtkApp};
 use plates::Plates;
 use slabs::Slabs;
 
@@ -64,14 +64,16 @@ fn main() {
     let chunks = move |factory: GtkApp| {
         // Chunks::weather(&factory, weather_data.clone());
 
-        Taskbar::bar(&factory);
+        Chunks::network(&factory);
 
-        Chunks::storage(&factory);
-        Chunks::clock(&factory);
+        // Taskbar::bar(&factory);
 
-        Slabs::volume(&factory);
+        // Chunks::storage(&factory);
+        // Chunks::clock(&factory);
 
-        Plates::welcome(&factory);
+        // Slabs::volume(&factory);
+
+        // Plates::welcome(&factory);
 
         load_css(STYLE);
     };

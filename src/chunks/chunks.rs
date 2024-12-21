@@ -56,6 +56,34 @@ impl Chunks {
         chunk.build();
     }
 
+    pub fn network(factory: &GtkApp) {
+        let tag = tag_label("network");
+        let margins = vec![(Edge::Top, 20), (Edge::Left, 20)];
+        let anchors = EdgeConfig::TOP_LEFT.to_vec();
+
+        let network_closure = || {
+            let text = format!(
+                "<span foreground='#FFFFFF' size='large'>{}</span>",
+                Internal::get_network().unwrap(),
+            );
+
+            text
+        };
+
+        Internal::update_widget(&tag, network_closure, 5);
+
+        let chunk = Chunk::new(
+            factory.clone(),
+            "Network",
+            tag,
+            margins,
+            anchors,
+            Layer::Bottom,
+        );
+
+        chunk.build();
+    }
+
     pub fn weather(factory: &GtkApp, weather_data: String) {
         let tag = tag_label("weather");
         let margins = vec![(Edge::Top, 90), (Edge::Right, 160)];
