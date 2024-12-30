@@ -65,6 +65,7 @@ fn main() {
         // Chunks::weather(&factory, weather_data.clone());
 
         Chunks::network(&factory);
+        Chunks::helloworld(&factory);
 
         // Taskbar::bar(&factory);
 

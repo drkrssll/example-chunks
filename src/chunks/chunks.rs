@@ -3,14 +3,41 @@
 use chrono::Local;
 use chunks_rs::{
     position::{Edge, EdgeConfig, Layer},
-    utils::{tag_box, tag_label},
+    utils::{tag_box, tag_container, tag_label},
     widgets::Chunk,
-    GtkApp, Internal,
+    GtkApp, Internal, Orientation,
 };
 
 pub struct Chunks {}
 
 impl Chunks {
+    pub fn helloworld(factory: &GtkApp) {
+        let tag_label_hello = tag_label("storage");
+        let tag_label_world = tag_label("storage");
+        let margins = vec![(Edge::Top, 20), (Edge::Right, 160)];
+        let anchors = EdgeConfig::TOP_RIGHT.to_vec();
+
+        Internal::static_widget(&tag_label_hello, "hello");
+        Internal::static_widget(&tag_label_world, "world");
+
+        let tag = tag_container(
+            "storage",
+            Orientation::Vertical,
+            9,
+            vec![tag_label_hello, tag_label_world],
+        );
+
+        Chunk::new(
+            factory.clone(),
+            "Storage",
+            tag,
+            margins,
+            anchors,
+            Layer::Top,
+        )
+        .build();
+    }
+
     pub fn clock(factory: &GtkApp) {
         let tag = tag_label("clock");
         let margins = vec![(Edge::Top, 20), (Edge::Right, 20)];

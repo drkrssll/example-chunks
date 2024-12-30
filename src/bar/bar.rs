@@ -7,7 +7,7 @@ use chunks_rs::{
     position::Edge,
     taskbar::Bar,
     utils::{tag_button, tag_label},
-    GtkApp, Internal, Vertical,
+    GtkApp, Internal, Orientation,
 };
 
 pub struct Taskbar {}
@@ -37,7 +37,14 @@ impl Taskbar {
 
         tags.push(label);
 
-        let bar = Bar::new(factory.clone(), "Storage", tags, margins, anchors, Vertical);
+        let bar = Bar::new(
+            factory.clone(),
+            "Storage",
+            tags,
+            margins,
+            anchors,
+            Orientation::Vertical,
+        );
 
         bar.build();
     }
