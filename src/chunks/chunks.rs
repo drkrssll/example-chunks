@@ -5,7 +5,7 @@ use chunks_rs::{
     position::{Edge, EdgeConfig, Layer},
     utils::{tag_box, tag_container, tag_label},
     widgets::Chunk,
-    GtkApp, Internal, Orientation,
+    Builder, GtkApp, Internal, Orientation,
 };
 
 pub struct Chunks {}
@@ -34,6 +34,7 @@ impl Chunks {
             margins,
             anchors,
             Layer::Top,
+            true,
         )
         .build();
     }
@@ -78,6 +79,7 @@ impl Chunks {
             margins,
             anchors,
             Layer::Bottom,
+            false,
         );
 
         chunk.build();
@@ -106,6 +108,7 @@ impl Chunks {
             margins,
             anchors,
             Layer::Bottom,
+            true,
         );
 
         chunk.build();
@@ -133,6 +136,7 @@ impl Chunks {
             margins,
             anchors,
             Layer::Bottom,
+            false,
         );
 
         chunk.build();
@@ -161,6 +165,7 @@ impl Chunks {
             margins,
             anchors,
             Layer::Bottom,
+            false,
         );
 
         chunk.build();
@@ -183,6 +188,7 @@ impl Chunks {
             margins,
             anchors,
             Layer::Bottom,
+            false,
         );
 
         chunk.build();

@@ -4,7 +4,7 @@ use chunks_rs::{
     position::{Edge, EdgeConfig},
     utils::tag_label,
     widgets::Plate,
-    GtkApp, Internal,
+    Builder, GtkApp, Internal,
 };
 
 pub struct Plates {}

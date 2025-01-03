@@ -7,7 +7,7 @@ use chunks_rs::{
     position::Edge,
     taskbar::Bar,
     utils::{tag_button, tag_label},
-    GtkApp, Internal, Orientation,
+    Builder, GtkApp, Internal, Orientation,
 };
 
 pub struct Taskbar {}
