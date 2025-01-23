@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 chrono = "0.4.38"
-chunks-rs = { git = "https://github.com/drkrssll/chunks-rs" }
+chunks-rs = { git = "https://github.com/drkrssll/chunks-rs", branch = "scroll-fixes" }
 regex = "1.11.0"
 reqwest = { version = "0.12.8", features = ["blocking", "json"] }
 serde = { version = "1.0.210", features = ["derive"] }

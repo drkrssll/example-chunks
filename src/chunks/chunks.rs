@@ -3,9 +3,9 @@
 use chrono::Local;
 use chunks_rs::{
     position::{Edge, EdgeConfig, Layer},
-    utils::{tag_box, tag_container, tag_label},
+    utils::{tag_box, tag_container, tag_label, tag_scroller},
     widgets::Chunk,
-    Builder, GtkApp, Internal, Orientation,
+    GtkApp, Internal, Orientation,
 };
 
 pub struct Chunks {}
@@ -37,6 +37,34 @@ impl Chunks {
             true,
         )
         .build();
+    }
+
+    pub fn scroller_text(factory: &GtkApp) {
+        let margins = vec![(Edge::Top, 20), (Edge::Right, 160)];
+        let anchors = EdgeConfig::TOP_RIGHT.to_vec();
+        let mut labels = vec![];
+
+        for _i in 1..=8 {
+            let text = tag_label("storage");
+
+            Internal::static_widget(&text, "This is an example.");
+
+            labels.push(text);
+        }
+
+        let boxx = tag_container("storage", Orientation::Vertical, 20, labels);
+
+        let chunk = Chunk::new(
+            factory.clone(),
+            "Storage",
+            tag_scroller("Storage", boxx, false, false),
+            margins,
+            anchors,
+            Layer::Top,
+            true,
+        );
+
+        chunk.build().set_dimensions(400, 200);
     }
 
     pub fn clock(factory: &GtkApp) {

@@ -64,8 +64,7 @@ fn main() {
     let chunks = move |factory: GtkApp| {
         // Chunks::weather(&factory, weather_data.clone());
 
-        Chunks::network(&factory);
-        Chunks::helloworld(&factory);
+        Chunks::scroller_text(&factory);
 
         // Taskbar::bar(&factory);
 
